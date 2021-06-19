@@ -4,6 +4,7 @@
 // Adapted from https://forum.arduino.cc/t/serial-input-basics-updated/382007/3
 
 #include <Servo.h> 
+#include <SoftwareSerial.h>
 
 const int numChars = 32;
 char receiveArray[numChars];
@@ -21,8 +22,9 @@ boolean newData = false;
 #define MOTOR_PWM 3   //Motor for propulsion 
 #define SERVO_PWM 5   //Servo for steering. (to calibrate) 
 
-#define PWM_TOP 1200
+#define PWM_TOP 1400
 #define PWM_BOT 1000
+#define PWM_MID 1500
 #define LED 2
 
 Servo driveMotor;
@@ -31,15 +33,12 @@ Servo steerServo;
 void setup()
 {
   // Open serial communications and wait for port to open:
-  Serial.begin(115200);
+  Serial.begin(57600);
   pinMode(LED,OUTPUT);
   analogWrite(LED,140);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for Native USB only
-  }
 
   driveMotor.writeMicroseconds(PWM_BOT);
-  steerServo.writeMicroseconds(PWM_BOT);
+  steerServo.writeMicroseconds(PWM_MID);
 
   driveMotor.attach(MOTOR_PWM);
   steerServo.attach(SERVO_PWM);
@@ -59,23 +58,26 @@ void parseData() {      // split the data into its parts in CSV format
 }
 
 void actuateRC() {
-    Serial.print("Throttle ");
-    Serial.print(currThrottle);
-    Serial.print(",Steering ");
-    Serial.println(currSteer);
+    //Serial.print("Throttle ");
+    //Serial.print(currThrottle);
+    //Serial.print(",Steering ");
+    //Serial.println(currSteer);
     
     // actuate servos from input
-    steerServo.write(currThrottle);
-    driveMotor.write(currSteer);
+    if (currThrottle >= PWM_TOP) currThrottle = PWM_TOP; //set max threshold to prevent motor burnout
+    steerServo.writeMicroseconds(currSteer);
+    driveMotor.writeMicroseconds(currThrottle);
 
 }
 
 void loop()
 {
   
+  ///*
   while (Serial.available() > 0 && newData == false)
   {
     char rc = Serial.read();
+    //Serial.println(rc);
 
     if (rc != stopMarker)
     {
@@ -100,6 +102,10 @@ void loop()
         actuateRC();
         newData = false;
     }
-  
-  delay(100);
+  //*/
+
+//  if (rcSerial.available() > 0)
+//    Serial.println(rcSerial.read());
+    
+  delay(50);
 }
