@@ -8,6 +8,7 @@ ControlDevice cont;
 ControlIO control;
 float throttle_stick;
 float steer_stick;
+String s;
 
 Serial rcPort;
 
@@ -25,17 +26,17 @@ void setup() {
     
   //printArray(Serial.list());
   
-  String rc_port = Serial.list()[0];
-  rcPort = new Serial(this,rc_port,115200);  
+  String rc_port = Serial.list()[1];
+  rcPort = new Serial(this,rc_port,57600);  
   
 }
 
 public void getUserInput_Throttle() {
-  throttle_stick = map(cont.getSlider("throttle").getValue(), -1, 1, 0, 180);
+  throttle_stick = map(cont.getSlider("throttle").getValue(), -1, 1, 990, 2000);
 }
 
 public void getUserInput_Steer() {
-  steer_stick = map(cont.getSlider("steer").getValue(), -1, 1, 0, 180);
+  steer_stick = map(cont.getSlider("steer").getValue(), -1, 1, 990, 2000);
 }
 
 void draw() {
@@ -44,12 +45,13 @@ void draw() {
   getUserInput_Throttle();
   getUserInput_Steer();
   
-  rcPort.write(int(steer_stick));
-  rcPort.write(',');
-  rcPort.write(int(throttle_stick));
-  rcPort.write('#');
-  
-  delay(100);
+  rcPort.write(nf(throttle_stick)); //PWM CH3
+  rcPort.write(",");
+  rcPort.write(nf(steer_stick)); //PWM CH5
+  rcPort.write("#\n");
+
+    
+  delay(50);
 
 
    
