@@ -22,7 +22,7 @@ boolean newData = false;
 #define MOTOR_PWM 3   //Motor for propulsion 
 #define SERVO_PWM 5   //Servo for steering. (to calibrate) 
 
-#define PWM_TOP 1400
+#define PWM_TOP 1200
 #define PWM_BOT 1000
 #define PWM_MID 1500
 #define LED 2

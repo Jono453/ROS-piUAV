@@ -1,3 +1,4 @@
-RC Controller XBOX
-throttle	throttle for  RC	3	SLIDER	Y Axis	0	1.0	0.0
-steer	steer for RC	3	SLIDER	X Rotation	0	1.0	0.0
+rc control
+throttle	rc throttle	3	SLIDER	Y Axis	0	1.0	0.0
+steer	rc steer	3	SLIDER	X Rotation	0	1.0	0.0
+safety	rc safety	3	SLIDER	Z Axis	0	1.0	0.0
