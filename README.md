@@ -15,6 +15,7 @@ https://www.auselectronicsdirect.com.au/rc-4wd-off-road-truggy-1-12th-2.4ghz-dig
 ### Software: ###
 Raspberry Pi running ROS Kinetic on Ubuntu 16.04 (from https://downloads.ubiquityrobotics.com/pi.html)
 Development computer also running ROS Kinetic using WSL (instructions at https://jack-kawell.com/2019/06/24/ros-wsl1/)
+ROS-UGV will be controlled over a wireless serial link using XBOX controller (with Processing) and Arduino Nano for actuation control. 
 
 ### ROS Nodes Overview: ###
 
@@ -23,10 +24,15 @@ Nodes are created in the catkin_workspace under the following packages:
 * ugv_plot - visualise UGV motion and turning
 * ugv_lidar - node to control and display lidar points
 * ugv_imu - MPU6050 interfacing on Pi
-* ugv_ps3 - teleop node using Ps3 controller
 
 ### Setup on Pi ###
 TBD
+
+### Setup on Laptop ###
+1. Connect XBOX Controller to laptop. Run Processing sketch
+2. Hold down Left Trigger (LT) on XBOX controller to enable actuation
+3. Left Thumbstick controls Speed and Right Thumbstick controls Steering
+4. If you want the car to stop than release LT button
 
 ### Instructions ###
 
@@ -39,8 +45,7 @@ Either SSH (with IP address of Pi on your own network) or through SSH with IP Ad
 `source devel/setup.bash`
 
 3. Run launch file
-Run in seperate terminals:
-`rosrun rosserial_python serial_node.py /dev/ttyUSB0`
+TBD
 
 ### References ##
 
